@@ -6,7 +6,6 @@ namespace YG.EditorScr
     {
         public static bool Draw()
         {
-            Debug.Log(YG2.infoYG.InterstitialAdv.postponeCallByFail);
             if (!YG2.infoYG.InterstitialAdv.postponeCallByFail)
             {
                 GUILayout.Space(10);

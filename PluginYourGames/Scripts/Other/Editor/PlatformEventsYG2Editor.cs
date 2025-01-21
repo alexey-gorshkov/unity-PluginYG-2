@@ -67,6 +67,7 @@ namespace YG.EditorScr
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
+            EditorGUI.BeginChangeCheck();
 
             Rect btPosition = GUILayoutUtility.GetRect(m_AddButonContent, GUI.skin.button);
             const float addButonWidth = 200f;
@@ -111,7 +112,11 @@ namespace YG.EditorScr
 
             EditorGUILayout.PropertyField(unityEvents, new GUIContent("Events"), true);
 
-            serializedObject.ApplyModifiedProperties();
+            if (EditorGUI.EndChangeCheck())
+                serializedObject.ApplyModifiedProperties();
+
+            if (EditorUtils.IsMouseOverWindow(serializedObject.targetObject.name))
+                Repaint();
         }
 
         private void ShowAddTriggerMenu()

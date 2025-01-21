@@ -215,7 +215,6 @@ namespace YG.EditorScr
         {
             GUILayout.BeginHorizontal();
 
-            EditorGUI.BeginChangeCheck();
             removeBeforeImport = EditorGUILayout.ToggleLeft(Langs.removeBeforeImport, removeBeforeImport);
             if (EditorGUI.EndChangeCheck())
                 EditorPrefs.SetBool(REMOVE_BEFORE_IMPORT_TOGGLE_KEY, removeBeforeImport);
@@ -264,7 +263,10 @@ namespace YG.EditorScr
 
             for (int i = 0; i < modules.Count; i++)
             {
-                GUILayout.BeginHorizontal(YGEditorStyles.selectable);
+                if (EditorUtils.IsMouseOverWindow(this))
+                    GUILayout.BeginHorizontal(YGEditorStyles.selectable);
+                else
+                    GUILayout.BeginHorizontal(YGEditorStyles.deselectable);
 
                 string projectVersionStr = modules[i].projectVersion;
                 if (modules[i].nameModule != ALL_MODULES)
@@ -370,7 +372,7 @@ namespace YG.EditorScr
                     if (modules[i].nameModule == ALL_MODULES)
                     {
                         string quickImport = "Quick Import";
-                        if (GUI.Button(rect, quickImport, YGEditorStyles.button))
+                        if (GUI.Button(rect, quickImport, ButtonStyle()))
                         {
                             if (IsUpdatePlugin())
                             {
@@ -397,7 +399,7 @@ namespace YG.EditorScr
 
                         void ButtonUpdate()
                         {
-                            if (GUI.Button(rect, "Update", YGEditorStyles.button))
+                            if (GUI.Button(rect, "Update", ButtonStyle()))
                             {
                                 if (!modules[i].noLoad)
                                 {
@@ -467,7 +469,7 @@ namespace YG.EditorScr
                             {
                                 if (modules[i].nameModule == InfoYG.NAME_PLUGIN)
                                 {
-                                    if (GUI.Button(rect, "Delete all", YGEditorStyles.button))
+                                    if (GUI.Button(rect, "Delete all", ButtonStyle()))
                                     {
                                         if (EditorUtility.DisplayDialog($"{Langs.correctDelete} {InfoYG.NAME_PLUGIN}", Langs.fullDeletePluginYG, Langs.deleteAll, Langs.cancel))
                                         {
@@ -477,7 +479,7 @@ namespace YG.EditorScr
                                 }
                                 else
                                 {
-                                    if (GUI.Button(rect, "Delete", YGEditorStyles.button))
+                                    if (GUI.Button(rect, "Delete", ButtonStyle()))
                                     {
                                         if (EditorUtility.DisplayDialog(Langs.deletePackage, $"{Langs.deletePackage} {modules[i].nameModule}?", "Ok", Langs.cancel))
                                         {
@@ -512,7 +514,7 @@ namespace YG.EditorScr
                         {
                             if (!modules[i].noLoad)
                             {
-                                if (GUI.Button(rect, "Import", YGEditorStyles.button))
+                                if (GUI.Button(rect, "Import", ButtonStyle()))
                                 {
                                     if (IsUpdatePlugin())
                                         ImportPackage(modules[i]);
@@ -520,7 +522,7 @@ namespace YG.EditorScr
                             }
                             else
                             {
-                                if (GUI.Button(rect, "Import by link", YGEditorStyles.button))
+                                if (GUI.Button(rect, "Import by link", ButtonStyle()))
                                     Application.OpenURL(modules[i].download);
                             }
                         }
@@ -536,7 +538,7 @@ namespace YG.EditorScr
                     {
                         rect.x += 23;
 
-                        if (GUI.Button(rect, "Doc", YGEditorStyles.button))
+                        if (GUI.Button(rect, "Doc", ButtonStyle()))
                             Application.OpenURL(modules[i].doc);
                     }
                     else
@@ -554,7 +556,6 @@ namespace YG.EditorScr
             }
 
             EditorGUILayout.EndScrollView();
-            Repaint();
 
             bool IsUpdatePlugin()
             {
@@ -574,6 +575,14 @@ namespace YG.EditorScr
 
                 EditorUtility.DisplayDialog($"Update PluginYG first", Langs.updatePluginFirst, "Ok");
                 return false;
+            }
+
+            GUIStyle ButtonStyle()
+            {
+                if (EditorUtils.IsMouseOverWindow(this))
+                    return YGEditorStyles.button;
+                else
+                    return YGEditorStyles.debutton;
             }
         }
 

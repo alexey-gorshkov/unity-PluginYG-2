@@ -6,12 +6,12 @@ namespace YG.EditorScr
     [CustomEditor(typeof(EventsYG2), true), CanEditMultipleObjects]
     public class EventsYG2Editor : Editor
     {
-        SerializedProperty m_DelegatesProperty;
+        private SerializedProperty m_DelegatesProperty;
 
-        GUIContent m_IconToolbarMinus;
-        GUIContent m_EventIDName;
-        GUIContent[] m_EventTypes;
-        GUIContent m_AddButonContent;
+        private GUIContent m_IconToolbarMinus;
+        private GUIContent m_EventIDName;
+        private GUIContent[] m_EventTypes;
+        private GUIContent m_AddButonContent;
 
         protected virtual void OnEnable()
         {
@@ -63,10 +63,10 @@ namespace YG.EditorScr
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
-            int toBeRemovedEntry = -1;
-
+            EditorGUI.BeginChangeCheck();
             EditorGUILayout.Space();
 
+            int toBeRemovedEntry = -1;
             Vector2 removeButtonSize = GUIStyle.none.CalcSize(m_IconToolbarMinus);
 
             for (int i = 0; i < m_DelegatesProperty.arraySize; ++i)
@@ -102,8 +102,11 @@ namespace YG.EditorScr
                 ShowAddTriggerMenu();
             }
 
-            serializedObject.ApplyModifiedProperties();
-            Repaint();
+            if (EditorGUI.EndChangeCheck())
+                serializedObject.ApplyModifiedProperties();
+
+            if (EditorUtils.IsMouseOverWindow(serializedObject.targetObject.name))
+                Repaint();
         }
 
         private void RemoveEntry(int toBeRemovedEntry)

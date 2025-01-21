@@ -67,6 +67,7 @@ namespace YG.EditorScr
 
             Undo.RecordObject(scr, "Platform Settings Change");
             Undo.RecordObject(YG2.infoYG, "InfoYG Change");
+            EditorGUI.BeginChangeCheck();
 
             GUILayout.BeginHorizontal();
 
@@ -137,7 +138,11 @@ namespace YG.EditorScr
                 AssetDatabase.SaveAssets();
             }
 
-            Repaint();
+            if (EditorGUI.EndChangeCheck())
+                serializedObject.ApplyModifiedProperties();
+
+            if (EditorUtils.IsMouseOverWindow(scr.NameBase()))
+                Repaint();
         }
 
         private void DisplayFieldsWithToggles(object scrObject, string checkPlatform = null)

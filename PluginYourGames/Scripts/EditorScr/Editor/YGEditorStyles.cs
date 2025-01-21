@@ -10,10 +10,12 @@ namespace YG.EditorScr
         private static double nextExecutionTime;
 
         private static GUIStyle _selectable;
+        private static GUIStyle _deselectable;
         private static GUIStyle _box;
         private static GUIStyle _boxLight;
         private static GUIStyle _error;
         private static GUIStyle _button;
+        private static GUIStyle _debutton;
         private static GUIStyle _warning;
 
         public static GUIStyle selectable
@@ -23,6 +25,15 @@ namespace YG.EditorScr
                 if (_selectable == null)
                     _selectable = Selectable();
                 return _selectable;
+            }
+        }
+        public static GUIStyle deselectable
+        {
+            get
+            {
+                if (_deselectable == null)
+                    _deselectable = Deselectable();
+                return _deselectable;
             }
         }
 
@@ -76,6 +87,16 @@ namespace YG.EditorScr
             }
         }
 
+        public static GUIStyle debutton
+        {
+            get
+            {
+                if (_debutton == null)
+                    _debutton = Debutton();
+                return _debutton;
+            }
+        }
+
         static YGEditorStyles()
         {
             EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
@@ -91,10 +112,12 @@ namespace YG.EditorScr
         public static void ReinitializeStyles()
         {
             _selectable = null;
+            _deselectable = null;
             _box = null;
             _boxLight = null;
             _error = null;
             _button = null;
+            _debutton = null;
             _warning = null;
         }
 
@@ -123,6 +146,17 @@ namespace YG.EditorScr
             style.active.background = MakeTexUnderlineLeft(hoverColor);
             style.focused.background = MakeTexUnderlineLeft(hoverColor);
 
+            return style;
+        }
+
+        public static GUIStyle Deselectable()
+        {
+            GUIStyle style = new GUIStyle(EditorStyles.helpBox);
+
+            Color normalColor = new Color(1f, 1f, 1f, 0.07f);
+            Color hoverColor = new Color(1f, 0.5f, 0f, 0.3f);
+
+            style.normal.background = MakeTexUnderlineLeft(normalColor);
             return style;
         }
 
@@ -205,8 +239,6 @@ namespace YG.EditorScr
 
             if (EditorGUIUtility.isProSkin)
             {
-                style = new GUIStyle(EditorStyles.helpBox);
-
                 Color hoverColor = new Color(1f, 0.5f, 0f, 0.5f);
 
                 style.normal.background = MakeTexUnderline(new Color(1f, 1f, 1f, 0.2f));
@@ -219,6 +251,25 @@ namespace YG.EditorScr
                 style.active.textColor = Color.white;
                 style.focused.textColor = Color.white;
 
+                style.fontSize = 12;
+                style.alignment = TextAnchor.MiddleCenter;
+            }
+            else
+            {
+                style = new GUIStyle(GUI.skin.button);
+            }
+
+            return style;
+        }
+
+        public static GUIStyle Debutton()
+        {
+            GUIStyle style = new GUIStyle(EditorStyles.helpBox);
+
+            if (EditorGUIUtility.isProSkin)
+            {
+                style.normal.background = MakeTexUnderline(new Color(1f, 1f, 1f, 0.2f));
+                style.normal.textColor = Color.white;
                 style.fontSize = 12;
                 style.alignment = TextAnchor.MiddleCenter;
             }
