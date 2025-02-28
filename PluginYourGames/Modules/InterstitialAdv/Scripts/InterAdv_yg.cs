@@ -95,7 +95,12 @@ namespace YG
                     Message("Error Interstitial Adv simulation");
                     YGInsides.ErrorInterAdv();
                 }
-                AdvCallingSimulation.InterstitialAdvOpen();
+                // временно для проверки
+                #if GooglePlayGamesPlatform_yg && Appodeal_yg
+                    iPlatform.InterstitialAdvShow();
+                #else
+                    AdvCallingSimulation.InterstitialAdvOpen();
+                #endif
 #else
                 iPlatform.InterstitialAdvShow();
 #endif

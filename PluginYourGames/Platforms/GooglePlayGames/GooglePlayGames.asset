@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5d228dc2bb257eb43a856395ab5a038b, type: 3}
-  m_Name: YandexGames
+  m_Name: GooglePlayGames
   m_EditorClassIdentifier: 
-  nameFull: YandexGamesPlatform
+  nameFull: GooglePlayGamesPlatform
   projectSettings:
     showFirstAdv: 1
     interAdvInterval: 60
     postponeCallByFail: 0
     useYandexMetrica: 1
-    metricaCounterID: 99005242
+    metricaCounterID: 0
     skipInterAdvAfterReward: 0
     saveLocal: 1
     saveCloud: 1
-    selectWebGLTemplate: 1
+    selectWebGLTemplate: 0
     runInBackground: 0
     enableExceptions: 2
     compressionFormat: 0

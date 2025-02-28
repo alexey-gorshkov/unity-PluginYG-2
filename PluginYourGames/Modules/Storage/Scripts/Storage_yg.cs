@@ -216,11 +216,13 @@ namespace YG.Insides
 
             if (data != InfoYG.NO_DATA && !string.IsNullOrEmpty(data))
             {
+#if YandexGamesPlatform_yg
                 data = data.Remove(0, 2);
                 data = data.Remove(data.Length - 2, 2);
                 data = data.Replace(@"\\\", '\u0002'.ToString());
                 data = data.Replace(@"\", "");
                 data = data.Replace('\u0002'.ToString(), @"\");
+#endif
                 try
                 {
 #if NJSON_STORAGE_YG2

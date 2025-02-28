@@ -33,10 +33,15 @@ namespace YG
                     id = "null";
 
                 onAdvNotification?.Invoke();
-#if !UNITY_EDITOR
-                iPlatform.RewardedAdvShow(id);
+#if UNITY_EDITOR
+                // временно для проверки
+                #if GooglePlayGamesPlatform_yg && Appodeal_yg
+                    iPlatform.RewardedAdvShow(id);
+                #else
+                    AdvCallingSimulation.RewardedAdvOpen(id);
+                #endif
 #else
-                AdvCallingSimulation.RewardedAdvOpen(id);
+                iPlatform.RewardedAdvShow(id);
 #endif
             }
         }
@@ -67,6 +72,7 @@ namespace YG.Insides
             YG2.onOpenAnyAdv?.Invoke();
             YG2.nowRewardAdv = true;
             timeOpenRewardedAdv = Time.realtimeSinceStartup;
+            rewardAdResult = RewardAdResult.None;
         }
 
         public static void CloseRewardedAdv()
@@ -103,7 +109,7 @@ namespace YG.Insides
 #endif
             rewardAdResult = RewardAdResult.None;
 
-            if (Time.realtimeSinceStartup > timeOpenRewardedAdv + 0.5f)
+            if (Time.realtimeSinceStartup > timeOpenRewardedAdv)
             {
                 if (infoYG.RewardedAdv.rewardedAfterClosing)
                 {
